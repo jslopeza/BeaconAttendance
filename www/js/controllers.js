@@ -3,25 +3,37 @@ angular.module('attendance.controllers', ['ngCordova'])
         var blueCatsAppToken = '61687109-905F-4436-91F8-E602F514C96D';
 
         var sdkOptions = {
-            trackBeaconVisits: true, //Log visits to beacons to the BlueCats api
-            useLocalStorage: true, //Cache beacons in local db for offline availability
-            cacheAllBeaconsForApp: true, //Cache all beacons on startup
             discoverBeaconsNearby: true, //Cache beacons as detected by the device
             cacheRefreshTimeIntervalInSeconds: 300 //Period to check for changes in seconds
         };
 
+        $scope.isClicked = false;
+        console.log($scope.isClicked);
         $scope.click = function() {
-            console.log('Clicked');
-            com.bluecats.beacons.startPurringWithAppToken(blueCatsAppToken, function() {
-                console.log('Connected');
-            }, logError, sdkOptions);
+            com.bluecats.beacons.startPurringWithAppToken(blueCatsAppToken, success, logError, sdkOptions);
+        }
+
+        function success() {
+            var user = window.localStorage.account;
+
+            if (user === 'null') {
+                alert('Please add account details');
+            } else {
+                user = JSON.parse(user);
+                alert('Attendence Taken for ' + user.firstname);
+                $scope.isClicked = true;
+            }
         }
 
         function logError() {
-            console.log('Error');
+            alert("You're not in the class, you cannot sign in");
         }
     })
     .controller('AccountCtrl', function($scope, $cordovaDevice) {
+        $scope.isSignedIn = true;
+        if (window.localStorage.account === 'null') {
+            $scope.isSignedIn = false;
+        }
         $scope.student = {};
 
         $scope.submit = function() {
