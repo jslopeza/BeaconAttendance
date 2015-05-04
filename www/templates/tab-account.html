@@ -1,7 +1,7 @@
 <ion-view view-title="Account">
     <ion-content>
-        <p ng-if="isSignedIn == true">Already Signed In</p>
-        <form class="list" ng-if="isSignedIn == false">
+        <p ng-if="isSignedIn">Already Signed In</p>
+        <form class="list" ng-if="!isSignedIn">
             <div class="item item-divider">
                 Student Info
             </div>

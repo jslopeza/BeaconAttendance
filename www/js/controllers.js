@@ -16,7 +16,7 @@ angular.module('attendance.controllers', ['ngCordova'])
         function success() {
             var user = window.localStorage.account;
 
-            if (user === 'null') {
+            if (user == 'null' || !user) {
                 alert('Please add account details');
             } else {
                 user = JSON.parse(user);
@@ -31,7 +31,7 @@ angular.module('attendance.controllers', ['ngCordova'])
     })
     .controller('AccountCtrl', function($scope, $cordovaDevice) {
         $scope.isSignedIn = true;
-        if (window.localStorage.account === 'null') {
+        if (window.localStorage.account == 'null' || !window.localStorage.account) {
             $scope.isSignedIn = false;
         }
         $scope.student = {};
